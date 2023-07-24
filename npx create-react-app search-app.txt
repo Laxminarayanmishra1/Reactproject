@@ -1,0 +1,102 @@
+npx create-react-app search-app
+cd search-app
+import React from "react";
+
+const SearchBar = ({ handleSearch }) => {
+  return (
+    <div className="search-container">
+      <input
+        type="text"
+        placeholder="Search..."
+        onChange={(e) => handleSearch(e.target.value)}
+      />
+    </div>
+  );
+};
+
+export default SearchBar;
+import React from "react";
+
+const DataContainer = ({ data }) => {
+  return (
+    <div className="data-container">
+      {data.map((item, index) => (
+        <div className="card" key={index}>
+          {/* Display your card data here */}
+          <p>{item.name}</p>
+          <p>{item.description}</p>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default DataContainer;
+import React, { useState } from "react";
+import "./styles/App.css";
+import SearchBar from "./components/SearchBar";
+import DataContainer from "./components/DataContainer";
+
+const data = [
+  { name: "Item 1", description: "Description for Item 1" },
+  { name: "Item 2", description: "Description for Item 2" },
+  { name: "Item 3", description: "Description for Item 3" },
+  // Add more sample data as needed
+];
+
+const App = () => {
+  const [filteredData, setFilteredData] = useState(data);
+
+  const handleSearch = (searchValue) => {
+    const filteredItems = data.filter((item) =>
+      item.name.toLowerCase().includes(searchValue.toLowerCase())
+    );
+    setFilteredData(filteredItems);
+  };
+
+  return (
+    <div className="app">
+      <h1>Search App</h1>
+      <SearchBar handleSearch={handleSearch} />
+      <DataContainer data={filteredData} />
+    </div>
+  );
+};
+
+export default App;
+.app {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.data-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-gap: 20px;
+}
+
+.card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+npm start
